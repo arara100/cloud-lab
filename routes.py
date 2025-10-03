@@ -57,34 +57,35 @@ def get_song(song_id):
     s = Song.query.get_or_404(song_id)
     return jsonify({"id": s.song_id, "title": s.title, "price": float(s.price)})
 
-@api.route("/songs", methods=["POST"])
-def add_song():
-    """
-    Додати пісню
-    ---
-    tags:
-      - Songs
-    parameters:
-      - in: body
-        name: body
-        schema:
-          type: object
-          required: [title, genre_id, album_id]
-          properties:
-            title: { type: string, example: "Nothing Else Matters" }
-            price: { type: number, example: 1.99 }
-            genre_id: { type: integer, example: 1 }
-            album_id: { type: integer, example: 1 }
-    responses:
-      200:
-        description: Пісня додана
-    """
-    data = request.json
-    song = Song(title=data["title"], price=data.get("price", 0.0),
-                genre_id=data.get("genre_id"), album_id=data.get("album_id"))
-    db.session.add(song)
-    db.session.commit()
-    return jsonify({"message": "Song added", "id": song.song_id})
+# ----------------- SONG -----------------
+#@api.route("/songs", methods=["POST"])
+#def add_song():
+#    """
+#    Додати пісню
+#    ---
+#    tags:
+#      - Songs
+#    parameters:
+#      - in: body
+#        name: body
+#        schema:
+#          type: object
+#          required: [title, genre_id, album_id]
+#          properties:
+#            title: { type: string, example: "Nothing Else Matters" }
+#            price: { type: number, example: 1.99 }
+#            genre_id: { type: integer, example: 1 }
+#            album_id: { type: integer, example: 1 }
+#    responses:
+#      200:
+#        description: Пісня додана
+#    """
+#    data = request.json
+#    song = Song(title=data["title"], price=data.get("price", 0.0),
+#                genre_id=data.get("genre_id"), album_id=data.get("album_id"))
+#    db.session.add(song)
+#    db.session.commit()
+#    return jsonify({"message": "Song added", "id": song.song_id})
 
 @api.route("/songs/<int:song_id>", methods=["PUT"])
 def update_song(song_id):
